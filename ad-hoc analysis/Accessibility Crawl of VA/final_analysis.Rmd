@@ -1,0 +1,39 @@
+---
+title: "Accessibility Crawl of VA.gov"
+author: "Jacob Rozran"
+date: "2021-03-23"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+library(ggplot2)
+library(scales)
+library(viridis)
+
+dat <- read.csv("data/raw/Accessibility Crawl of VA.gov Sub-domains - Tuesday, 10am.csv")
+
+dat <- dat[dat$Checked.URLs > 0, ]
+dat$Accessibility.Score <- as.numeric(gsub("\\%", "", dat$Accessibility.Score)) / 100
+```
+
+# Accessibility Crawl of VA.gov
+
+This is a visualization of the web crawl that the CivicActions Accessibility 
+Team completed of the VA.gov web properties. The score is between 0-100%; 100% 
+being a good website (no accessibility issues per property) and 0% being the 
+worst (max accessibility issues per property).
+
+```{r viz, echo = FALSE, out.width = "100%"}
+ggplot(dat, aes(x = Checked.URLs, y = Accessibility.Score, 
+                color = Accessibility.Score)) + 
+    geom_point() + 
+    scale_y_continuous(labels = percent_format()) + 
+    scale_x_continuous(labels = comma_format()) + 
+    scale_color_viridis(option = "B", direction = -1) + 
+    xlab("# of URLs Checked (per VA.gov property)") +
+    ylab("Accessibility Score") +
+    theme(panel.background = element_blank(), 
+          axis.ticks = element_line(color = "light gray"),
+          panel.grid = element_line(color = "light gray"),
+          legend.position = "none", text = element_text(size = 16))
+```

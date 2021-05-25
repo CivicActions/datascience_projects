@@ -1,0 +1,311 @@
+Name,Checked URLs,Violations,Score,,Accessibility Score
+www.washingtondc.va.gov,70,634,-3.18,9.057142857,0.00%
+www.vacareers.va.gov,125,1061,-3.09,8.488,6.28%
+mobile.va.gov,98,772,-2.98,7.87755102,13.02%
+connectedcare.va.gov,274,1701,-2.63,6.208029197,31.46%
+telehealth.va.gov,12,74,-2.62,6.166666667,31.91%
+www.rehab.research.va.gov,5689,34692,-2.61,6.098084022,32.67%
+www.seattledenvercoin.research.va.gov,1,6,-2.58,6,33.75%
+gravelocator.cem.va.gov,2,10,-2.32,5,44.79%
+iris.custhelp.va.gov,45,222,-2.30,4.933333333,45.53%
+www.research.va.gov,310,1370,-2.14,4.419354839,51.21%
+www.tms.va.gov,3,13,-2.12,4.333333333,52.16%
+www.oedca.va.gov,1,4,-2.00,4,55.84%
+www.vaforvets.va.gov,32,128,-2.00,4,55.84%
+www.vlm.cem.va.gov,2,7,-1.81,3.5,61.36%
+www.ptsd.va.gov,1170,3961,-1.76,3.385470085,62.62%
+www.knowva.ebenefits.va.gov,3,10,-1.74,3.333333333,63.20%
+www.blogs.va.gov,17,56,-1.72,3.294117647,63.63%
+www.herc.research.va.gov,1,3,-1.58,3,66.88%
+www.virec.research.va.gov,1,3,-1.58,3,66.88%
+www.data.va.gov,20,47,-1.23,2.35,74.05%
+www.hsrd.research.va.gov,15,35,-1.22,2.333333333,74.24%
+www.ruralhealth.va.gov,34,79,-1.22,2.323529412,74.35%
+insurance.va.gov,5,11,-1.14,2.2,75.71%
+www.veterantraining.va.gov,20,44,-1.14,2.2,75.71%
+gibill.custhelp.va.gov,69,151,-1.13,2.188405797,75.84%
+blogs.va.gov,422,879,-1.06,2.082938389,77.00%
+benefits.va.gov,330,664,-1.01,2.012121212,77.78%
+www.benefits.va.gov,1517,3051,-1.01,2.011206328,77.79%
+homeloans.va.gov,1,2,-1.00,2,77.92%
+vaonce.vba.va.gov,1,2,-1.00,2,77.92%
+www.butler.va.gov,54,108,-1.00,2,77.92%
+www.datahub.va.gov,1,2,-1.00,2,77.92%
+www.ffps.vba.va.gov,1,2,-1.00,2,77.92%
+www.patientsafety.va.gov,51,101,-0.99,1.980392157,78.13%
+eauth.va.gov,23,43,-0.90,1.869565217,79.36%
+www.ebenefits.va.gov,76,137,-0.85,1.802631579,80.10%
+www.gibill.va.gov,29,49,-0.76,1.689655172,81.34%
+www.insurance.va.gov,5,8,-0.68,1.6,82.33%
+www.mirecc.va.gov,145,205,-0.50,1.413793103,84.39%
+access.va.gov,3,4,-0.42,1.333333333,85.28%
+www.cherp.research.va.gov,22,28,-0.35,1.272727273,85.95%
+www.vacanteen.va.gov,20,25,-0.32,1.25,86.20%
+www.northerncalifornia.va.gov,68,74,-0.12,1.088235294,87.98%
+hcsc.va.gov,1,1,0.00,1,88.96%
+productionchat.vrm.vba.va.gov,3,3,0.00,1,88.96%
+vabenefits.vba.va.gov,1,1,0.00,1,88.96%
+veteran.mobilehealth.va.gov,3,3,0.00,1,88.96%
+www.aptcenter.research.va.gov,1,1,0.00,1,88.96%
+www.choose.va.gov,1,1,0.00,1,88.96%
+www.cider.research.va.gov,1,1,0.00,1,88.96%
+www.queri.research.va.gov,1,1,0.00,1,88.96%
+www.vba.va.gov,5,5,0.00,1,88.96%
+www.vha.cc.va.gov,1,1,0.00,1,88.96%
+www.vip.vetbiz.va.gov,2,2,0.00,1,88.96%
+www.socialwork.va.gov,46,40,0.20,0.8695652174,90.40%
+www.move.va.gov,19,16,0.25,0.8421052632,90.70%
+www.caregiver.va.gov,37,31,0.26,0.8378378378,90.75%
+www.providence.va.gov,52,43,0.27,0.8269230769,90.87%
+www.my.va.gov,5,4,0.32,0.8,91.17%
+www.northernindiana.va.gov,53,42,0.34,0.7924528302,91.25%
+www.parkinsons.va.gov,13,10,0.38,0.7692307692,91.51%
+www.qualityandsafety.va.gov,4,3,0.42,0.75,91.72%
+www.accesstocare.va.gov,481,322,0.58,0.6694386694,92.61%
+care.va.gov,3,2,0.58,0.6666666667,92.64%
+www.warrelatedillness.va.gov,83,51,0.70,0.6144578313,93.22%
+www.atlanta.va.gov,62,38,0.71,0.6129032258,93.23%
+www.nebraska.va.gov,75,42,0.84,0.56,93.82%
+www.minneapolis.va.gov,68,38,0.84,0.5588235294,93.83%
+www.pbm.va.gov,6,3,1.00,0.5,94.48%
+www.visn8.va.gov,4,2,1.00,0.5,94.48%
+www.publichealth.va.gov,337,166,1.02,0.4925816024,94.56%
+www.womenshealth.va.gov,87,40,1.12,0.4597701149,94.92%
+www.simlearn.va.gov,22,10,1.14,0.4545454545,94.98%
+www.veteranshealthlibrary.va.gov,204,85,1.26,0.4166666667,95.40%
+www.vetcenter.va.gov,10,4,1.32,0.4,95.58%
+www.bva.va.gov,11,4,1.46,0.3636363636,95.99%
+www.lasvegas.va.gov,58,21,1.47,0.3620689655,96.00%
+www.grandjunction.va.gov,3,1,1.58,0.3333333333,96.32%
+www.oefoif.va.gov,15,5,1.58,0.3333333333,96.32%
+www.va.gov,4863,1474,1.72,0.3031050792,96.65%
+www.saltlakecity.va.gov,73,22,1.73,0.301369863,96.67%
+www.maryland.va.gov,62,18,1.78,0.2903225806,96.79%
+www.portland.va.gov,82,23,1.83,0.2804878049,96.90%
+www.ethics.va.gov,18,5,1.85,0.2777777778,96.93%
+www.indianapolis.va.gov,60,16,1.91,0.2666666667,97.06%
+www.siouxfalls.va.gov,49,13,1.91,0.2653061224,97.07%
+www.asheville.va.gov,52,13,2.00,0.25,97.24%
+www.cidrr8.research.va.gov,12,3,2.00,0.25,97.24%
+www.hawaii.va.gov,52,12,2.12,0.2307692308,97.45%
+www.cfm.va.gov,22,5,2.14,0.2272727273,97.49%
+www.cheyenne.va.gov,55,12,2.20,0.2181818182,97.59%
+www.prevention.va.gov,65,14,2.22,0.2153846154,97.62%
+www.hcsc.va.gov,5,1,2.32,0.2,97.79%
+www.section508.va.gov,5,1,2.32,0.2,97.79%
+www.northtexas.va.gov,73,14,2.38,0.1917808219,97.88%
+www.northflorida.va.gov,64,12,2.42,0.1875,97.93%
+www.maine.va.gov,59,11,2.42,0.186440678,97.94%
+www.danville.va.gov,49,9,2.44,0.1836734694,97.97%
+www.durham.va.gov,61,11,2.47,0.1803278689,98.01%
+www.vetbiz.va.gov,23,4,2.52,0.1739130435,98.08%
+www.bronx.va.gov,48,8,2.58,0.1666666667,98.16%
+www.hampton.va.gov,48,8,2.58,0.1666666667,98.16%
+www.cincinnati.va.gov,52,8,2.70,0.1538461538,98.30%
+www.reno.va.gov,53,8,2.73,0.1509433962,98.33%
+www.visn19.va.gov,20,3,2.74,0.15,98.34%
+www.columbus.va.gov,47,7,2.75,0.1489361702,98.36%
+www.erie.va.gov,54,8,2.75,0.1481481481,98.36%
+www.milwaukee.va.gov,54,8,2.75,0.1481481481,98.36%
+www.oprm.va.gov,27,4,2.75,0.1481481481,98.36%
+www.denver.va.gov,61,9,2.76,0.1475409836,98.37%
+www.clarksburg.va.gov,48,7,2.78,0.1458333333,98.39%
+www.westpalmbeach.va.gov,62,9,2.78,0.1451612903,98.40%
+www.stcloud.va.gov,49,7,2.81,0.1428571429,98.42%
+www.caribbean.va.gov,59,8,2.88,0.1355932203,98.50%
+www.charleston.va.gov,67,9,2.90,0.1343283582,98.52%
+www.annarbor.va.gov,54,7,2.95,0.1296296296,98.57%
+www.northport.va.gov,47,6,2.97,0.1276595745,98.59%
+www.lomalinda.va.gov,52,6,3.12,0.1153846154,98.73%
+www.houston.va.gov,70,8,3.13,0.1142857143,98.74%
+www.myhealth.va.gov,340,38,3.16,0.1117647059,98.77%
+staging.va.gov,3257,359,3.18,0.1102241326,98.78%
+www.orlando.va.gov,56,6,3.22,0.1071428571,98.82%
+www.fargo.va.gov,58,6,3.27,0.1034482759,98.86%
+www.rehab.va.gov,39,4,3.29,0.1025641026,98.87%
+www.manchester.va.gov,49,5,3.29,0.1020408163,98.87%
+www.lovell.fhcc.va.gov,63,6,3.39,0.09523809524,98.95%
+www.polytrauma.va.gov,21,2,3.39,0.09523809524,98.95%
+www.longbeach.va.gov,54,5,3.43,0.09259259259,98.98%
+www.losangeles.va.gov,55,5,3.46,0.09090909091,99.00%
+www.newjersey.va.gov,45,4,3.49,0.08888888889,99.02%
+www.visn4.va.gov,68,6,3.50,0.08823529412,99.03%
+www.littlerock.va.gov,57,5,3.51,0.08771929825,99.03%
+www.birmingham.va.gov,58,5,3.54,0.08620689655,99.05%
+www.mentalhealth.va.gov,129,11,3.55,0.08527131783,99.06%
+www.roseburg.va.gov,47,4,3.55,0.08510638298,99.06%
+www.alexandria.va.gov,48,4,3.58,0.08333333333,99.08%
+www.patientcare.va.gov,36,3,3.58,0.08333333333,99.08%
+www.shreveport.va.gov,48,4,3.58,0.08333333333,99.08%
+www.boston.va.gov,62,5,3.63,0.08064516129,99.11%
+www.richmond.va.gov,50,4,3.64,0.08,99.12%
+www.biloxi.va.gov,52,4,3.70,0.07692307692,99.15%
+www.phoenix.va.gov,56,4,3.81,0.07142857143,99.21%
+www.oklahoma.va.gov,58,4,3.86,0.06896551724,99.24%
+www.tucson.va.gov,58,4,3.86,0.06896551724,99.24%
+www.innovation.va.gov,15,1,3.91,0.06666666667,99.26%
+www.osp.va.gov,15,1,3.91,0.06666666667,99.26%
+www.tomah.va.gov,46,3,3.94,0.0652173913,99.28%
+www.philadelphia.va.gov,63,4,3.98,0.06349206349,99.30%
+www.centraliowa.va.gov,50,3,4.06,0.06,99.34%
+www.prosthetics.va.gov,50,3,4.06,0.06,99.34%
+www.psychologytraining.va.gov,17,1,4.09,0.05882352941,99.35%
+www.dayton.va.gov,52,3,4.12,0.05769230769,99.36%
+www.augusta.va.gov,55,3,4.20,0.05454545455,99.40%
+www.volunteer.va.gov,19,1,4.25,0.05263157895,99.42%
+www.louisville.va.gov,96,5,4.26,0.05208333333,99.42%
+www.pugetsound.va.gov,59,3,4.30,0.05084745763,99.44%
+www.southtexas.va.gov,63,3,4.39,0.04761904762,99.47%
+www.beckley.va.gov,43,2,4.43,0.04651162791,99.49%
+www.huntington.va.gov,65,3,4.44,0.04615384615,99.49%
+www.lexington.va.gov,68,3,4.50,0.04411764706,99.51%
+www.bigspring.va.gov,48,2,4.58,0.04166666667,99.54%
+www.elpaso.va.gov,48,2,4.58,0.04166666667,99.54%
+www.healthquality.va.gov,49,2,4.61,0.04081632653,99.55%
+www.wilkes-barre.va.gov,49,2,4.61,0.04081632653,99.55%
+www.fayettevillenc.va.gov,50,2,4.64,0.04,99.56%
+www.wallawalla.va.gov,50,2,4.64,0.04,99.56%
+www.cem.va.gov,551,22,4.65,0.03992740472,99.56%
+www.columbiasc.va.gov,51,2,4.67,0.03921568627,99.57%
+www.syracuse.va.gov,52,2,4.70,0.03846153846,99.58%
+www.muskogee.va.gov,53,2,4.73,0.03773584906,99.58%
+www.spokane.va.gov,53,2,4.73,0.03773584906,99.58%
+www.detroit.va.gov,54,2,4.75,0.03703703704,99.59%
+www.connecticut.va.gov,57,2,4.83,0.0350877193,99.61%
+www.tampa.va.gov,57,2,4.83,0.0350877193,99.61%
+www.centraltexas.va.gov,60,2,4.91,0.03333333333,99.63%
+www.chillicothe.va.gov,60,2,4.91,0.03333333333,99.63%
+www.coatesville.va.gov,91,3,4.92,0.03296703297,99.64%
+www.montana.va.gov,61,2,4.93,0.03278688525,99.64%
+www.visn6.va.gov,36,1,5.17,0.02777777778,99.69%
+www.buffalo.va.gov,42,1,5.39,0.02380952381,99.74%
+www.oit.va.gov,89,2,5.48,0.02247191011,99.75%
+www.southernoregon.va.gov,45,1,5.49,0.02222222222,99.75%
+www.salem.va.gov,46,1,5.52,0.02173913043,99.76%
+www.tuscaloosa.va.gov,47,1,5.55,0.02127659574,99.77%
+www.battlecreek.va.gov,48,1,5.58,0.02083333333,99.77%
+www.fayettevillear.va.gov,49,1,5.61,0.02040816327,99.77%
+www.fresno.va.gov,49,1,5.61,0.02040816327,99.77%
+www.bedford.va.gov,50,1,5.64,0.02,99.78%
+www.madison.va.gov,52,1,5.70,0.01923076923,99.79%
+www.hines.va.gov,53,1,5.73,0.01886792453,99.79%
+www.topeka.va.gov,53,1,5.73,0.01886792453,99.79%
+www.whiteriver.va.gov,53,1,5.73,0.01886792453,99.79%
+www.neworleans.va.gov,55,1,5.78,0.01818181818,99.80%
+www.prescott.va.gov,55,1,5.78,0.01818181818,99.80%
+www.hudsonvalley.va.gov,56,1,5.81,0.01785714286,99.80%
+www.martinsburg.va.gov,56,1,5.81,0.01785714286,99.80%
+www.iowacity.va.gov,57,1,5.83,0.01754385965,99.81%
+www.blackhills.va.gov,59,1,5.88,0.01694915254,99.81%
+www.baypines.va.gov,62,1,5.95,0.01612903226,99.82%
+www.hepatitis.va.gov,146,1,7.19,0.006849315068,99.92%
+developer.va.gov,55,0,No Errors,0,100.00%
+emergencycarereporting.communitycare.va.gov,1,0,No Errors,0,100.00%
+inquiry.vba.va.gov,4,0,No Errors,0,100.00%
+lgy.va.gov,7,0,No Errors,0,100.00%
+m.va.gov,5,0,No Errors,0,100.00%
+missionact.va.gov,2,0,No Errors,0,100.00%
+va.gov,1,0,No Errors,0,100.00%
+veteran.mobile.va.gov,3,0,No Errors,0,100.00%
+www.acquisitionacademy.va.gov,41,0,No Errors,0,100.00%
+www.alaska.va.gov,51,0,No Errors,0,100.00%
+www.albany.va.gov,52,0,No Errors,0,100.00%
+www.albuquerque.va.gov,63,0,No Errors,0,100.00%
+www.altoona.va.gov,49,0,No Errors,0,100.00%
+www.amarillo.va.gov,44,0,No Errors,0,100.00%
+www.amputation.research.va.gov,1,0,No Errors,0,100.00%
+www.annarbor.hsrd.research.va.gov,1,0,No Errors,0,100.00%
+www.boise.va.gov,47,0,No Errors,0,100.00%
+www.brrc.research.va.gov,1,0,No Errors,0,100.00%
+www.cadre.research.va.gov,1,0,No Errors,0,100.00%
+www.ccdor.research.va.gov,1,0,No Errors,0,100.00%
+www.centralalabama.va.gov,50,0,No Errors,0,100.00%
+www.centralwesternmass.va.gov,51,0,No Errors,0,100.00%
+www.cep.fsc.va.gov,1,0,No Errors,0,100.00%
+www.chicago.va.gov,48,0,No Errors,0,100.00%
+www.choir.research.va.gov,1,0,No Errors,0,100.00%
+www.ci2i.research.va.gov,1,0,No Errors,0,100.00%
+www.cindrr.research.va.gov,1,0,No Errors,0,100.00%
+www.cleveland.va.gov,64,0,No Errors,0,100.00%
+www.clfamilymembers.fsc.va.gov,1,0,No Errors,0,100.00%
+www.cmc3.research.va.gov,1,0,No Errors,0,100.00%
+www.columbiamo.va.gov,50,0,No Errors,0,100.00%
+www.cshiip.research.va.gov,1,0,No Errors,0,100.00%
+www.desertpacific.va.gov,1,0,No Errors,0,100.00%
+www.dieteticinternship.va.gov,1,0,No Errors,0,100.00%
+www.dublin.va.gov,46,0,No Errors,0,100.00%
+www.ehrm.va.gov,14,0,No Errors,0,100.00%
+www.energy.va.gov,1,0,No Errors,0,100.00%
+www.fingerlakes.va.gov,1,0,No Errors,0,100.00%
+www.fss.va.gov,1,0,No Errors,0,100.00%
+www.hiv.va.gov,70,0,No Errors,0,100.00%
+www.houston.hsrd.research.va.gov,1,0,No Errors,0,100.00%
+www.index.va.gov,8,0,No Errors,0,100.00%
+www.ironmountain.va.gov,48,0,No Errors,0,100.00%
+www.jackson.va.gov,51,0,No Errors,0,100.00%
+www.kansascity.va.gov,1,0,No Errors,0,100.00%
+www.lamp.visn8.med.va.gov,1,0,No Errors,0,100.00%
+www.leavenworth.va.gov,45,0,No Errors,0,100.00%
+www.lebanon.va.gov,79,0,No Errors,0,100.00%
+www.marion.va.gov,53,0,No Errors,0,100.00%
+www.memphis.va.gov,89,0,No Errors,0,100.00%
+www.miami.va.gov,63,0,No Errors,0,100.00%
+www.missionact.va.gov,1,0,No Errors,0,100.00%
+www.mountainhome.va.gov,95,0,No Errors,0,100.00%
+www.mvp.va.gov,1,0,No Errors,0,100.00%
+www.ncrar.research.va.gov,1,0,No Errors,0,100.00%
+www.nutrition.va.gov,24,0,No Errors,0,100.00%
+www.nyharbor.va.gov,45,0,No Errors,0,100.00%
+www.paloalto.va.gov,59,0,No Errors,0,100.00%
+www.pay.va.gov,3,0,No Errors,0,100.00%
+www.poplarbluff.va.gov,48,0,No Errors,0,100.00%
+www.portlandcoin.research.va.gov,1,0,No Errors,0,100.00%
+www.saginaw.va.gov,57,0,No Errors,0,100.00%
+www.salisbury.va.gov,49,0,No Errors,0,100.00%
+www.sandiego.va.gov,61,0,No Errors,0,100.00%
+www.sanfrancisco.va.gov,56,0,No Errors,0,100.00%
+www.sci.va.gov,6,0,No Errors,0,100.00%
+www.sheridan.va.gov,49,0,No Errors,0,100.00%
+www.southeast.va.gov,1,0,No Errors,0,100.00%
+www.stlouis.va.gov,3,0,No Errors,0,100.00%
+www.tennesseevalley.va.gov,114,0,No Errors,0,100.00%
+www.texasvalley.va.gov,51,0,No Errors,0,100.00%
+www.vendorportal.ecms.va.gov,1,0,No Errors,0,100.00%
+www.vision.research.va.gov,1,0,No Errors,0,100.00%
+www.visn10.va.gov,1,0,No Errors,0,100.00%
+www.visn2.va.gov,3,0,No Errors,0,100.00%
+www.wichita.va.gov,49,0,No Errors,0,100.00%
+www.wilmington.va.gov,51,0,No Errors,0,100.00%
+data.va.gov,0,0,No scans,#DIV/0!,
+design.va.gov,0,0,No scans,#DIV/0!,
+downloads.va.gov,0,0,No scans,#DIV/0!,
+gibill.va.gov,0,0,No scans,#DIV/0!,
+logon.iam.va.gov,0,0,No scans,#DIV/0!,
+mhvidp-prod.myhealth.va.gov,0,0,No scans,#DIV/0!,
+ssologon.iam.va.gov,0,0,No scans,#DIV/0!,
+veteranshealthlibrary.va.gov,0,0,No scans,#DIV/0!,
+wiki.mobilehealth.va.gov,0,0,No scans,#DIV/0!,
+www.cancer.va.gov,0,0,No scans,#DIV/0!,
+www.communityviewer.va.gov,0,0,No scans,#DIV/0!,
+www.dementia.cindrr.research.va.gov,0,0,No scans,#DIV/0!,
+www.durham.hsrd.research.va.gov,0,0,No scans,#DIV/0!,
+www.epilepsy.va.gov,0,0,No scans,#DIV/0!,
+www.fes.research.va.gov,0,0,No scans,#DIV/0!,
+www.fsc.va.gov,0,0,No scans,#DIV/0!,
+www.heartoftexas.va.gov,0,0,No scans,#DIV/0!,
+www.hospitalcompare.va.gov,0,0,No scans,#DIV/0!,
+www.listserv.va.gov,0,0,No scans,#DIV/0!,
+www.newengland.va.gov,0,0,No scans,#DIV/0!,
+www.peprec.research.va.gov,0,0,No scans,#DIV/0!,
+www.research.iowa-city.med.va.gov,0,0,No scans,#DIV/0!,
+www.seattle.eric.research.va.gov,0,0,No scans,#DIV/0!,
+www.vacsp.research.va.gov,0,0,No scans,#DIV/0!,
+www.vahcps.fsc.va.gov,0,0,No scans,#DIV/0!,
+www.visn12.va.gov,0,0,No scans,#DIV/0!,
+www.visn15.va.gov,0,0,No scans,#DIV/0!,
+www.visn16.va.gov,0,0,No scans,#DIV/0!,
+www.visn20.med.va.gov,0,0,No scans,#DIV/0!,
+www.visn21.va.gov,0,0,No scans,#DIV/0!,
+www.visn23.va.gov,0,0,No scans,#DIV/0!,
+www.visn9.va.gov,0,0,No scans,#DIV/0!,
+www.voa.va.gov,0,0,No scans,#DIV/0!,

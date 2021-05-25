@@ -1,0 +1,14 @@
+---
+title: "Untitled"
+author: "AUTHOR"
+date: "DATE"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+dat <- format_date(get_data())
+```
+
+# Final RMarkdown File
+
+This is where you should build your final output.

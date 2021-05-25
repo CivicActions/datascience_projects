@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+
+div.navbar {
+  background-color: #162e51;
+  font-size: 1.5em;
+  font-weight: 800;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+span.navbar-brand {
+  font-size: 1.3em;
+  font-weight: 800;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+div.section {
+  font-size: 1.05em;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.bg-primary {
+  background-color: #2378c3;
+}
+
+.nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color: #2378c3;
+}
+
+div.chart-title {
+  font-size: 2em;
+  color: #162e51;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+h4{
+  color: #162e51;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.value-box .value {
+    font-size: 12rem !important;
+    font-family: "Source Sans Pro", sans-serif;
+}
+
+.value-box .caption {
+    font-size: 2rem !important;
+    font-family: "Source Sans Pro", sans-serif;
+}
+
+p.caption {
+  font-size: 120px;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+
+body {
+  padding-top: 69px;
+}
+
+.section.sidebar {
+  top: 60px;
+  background-color: #162e51;
+}
+
+.value-box {
+  color: #162e51;
+  background-color: #fff !important;
+}
+
+.bg-info {
+  background-color: rgba(52, 152, 219, 0.7);
+}
+
+.bg-warning {
+  background-color: rgba(243, 156, 18, 0.7);
+}
+
+.bg-success {
+  background-color: rgba(24, 188, 156, 0.7);
+}
+
+.bg-danger {
+  background-color: rgba(231, 76, 60, 0.7);
+}
+
+a {
+  color: #1967be;
+}

@@ -1,0 +1,13 @@
+name: california_telework_dashboard
+title: california_telework_dashboard
+username:
+account: jakelearnsdatascience
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3814120
+bundleId: 4397946
+url: https://jakelearnsdatascience.shinyapps.io/california_telework_dashboard/
+when: 1616764351.09114
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: README.md|cali_data

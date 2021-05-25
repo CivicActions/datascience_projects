@@ -1,0 +1,79 @@
+@import url('https://fonts.google.com/css2?family=Work+Sans')
+
+div.html-widget.gauge {
+  height: 100%; /*or try sth like 320px instead of 100%, whatever you prefer*/
+}
+
+div.html-widget.gauge svg {
+  height: 100%; /*or try sth like 320px instead of 100%, whatever you prefer*/
+  margin-top: -10px;
+  margin-bottom: -40px;
+}
+
+div.gauge {
+  height: 100%; /*or try sth like 320px instead of 100%, whatever you prefer*/
+}
+
+div.gauge svg {
+  height: 100%; /*or try sth like 320px instead of 100%, whatever you prefer*/
+  margin-top: -10px;
+  margin-bottom: -40px;
+}
+
+div.html-widget-output {
+  height: 100%; /*or try sth like 320px instead of 100%, whatever you prefer*/
+}
+
+div.html-widget-output svg {
+  height: 100%; /*or try sth like 320px instead of 100%, whatever you prefer*/
+  margin-top: -10px;
+  margin-bottom: -40px;
+}
+
+/* logo */
+.skin-blue .main-header .logo {
+      background-color: #2774AE;
+      font-family: 'Work Sans'
+      font-weight: bold;
+      font-size: 40px;
+      }
+
+/* logo when hovered */
+.skin-blue .main-header .logo:hover {
+      background-color: #2774AE;
+      }
+
+/* navbar (rest of the header) */
+.skin-blue .main-header .navbar {
+      background-color: #2774AE;
+      }
+
+/* main sidebar */
+.skin-blue .main-sidebar {
+      background-color: #003B5C;
+      }
+
+/* active selected tab in the sidebarmenu */
+.skin-blue .main-sidebar .sidebar .sidebar-menu .active a{
+      background-color: #FFD100;
+      }
+
+/* other links in the sidebarmenu */
+.skin-blue .main-sidebar .sidebar .sidebar-menu a{
+      background-color: #00ff00;
+      color: #000000;
+      }
+
+/* other links in the sidebarmenu when hovered */
+ .skin-blue .main-sidebar .sidebar .sidebar-menu a:hover{
+      background-color: #FFD100;
+      }
+/* toggle button when hovered  */    
+ .skin-blue .main-header .navbar .sidebar-toggle:hover{
+      background-color: #FFD100;
+      }
+
+.small-box { 
+    background-color: #8BB8E8 !important; 
+    color: #FFFFFF !important; 
+}

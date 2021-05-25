@@ -1,0 +1,113 @@
+---
+title: "Design Team Survey"
+author: "Jake Rozran"
+date: "2021-04-08"
+output: html_document
+---
+
+```{r setup, include = FALSE, warnings = FALSE, message = FALSE}
+source("R/get_data.R")
+source("R/plot_data.R")
+dat <- read_in_data("data/raw/Individual Design Preferences (Responses) - Form Responses 1.csv")
+```
+
+# Design Team Preferences
+
+The design team, overall, prefers doing Design Strategy & Research and 
+Interaction Design, followed closely with People Management. Less favored are 
+Content Design and Visual Design.
+
+This is not to say that these groups are universally liked or not liked. Within 
+each area, there are specific preferences and dislikes. 
+
+For example, within a less preferred area, Visual Design, the function of 
+Product Design is highly preferred. On the flip side of this: Within the 
+preferred area of Design Strategy & Research, Qualitative Research is a less 
+preferred area.
+
+## Overall Preferences
+
+```{r overall, echo = FALSE, fig.width = 12, warnings = FALSE, message = FALSE}
+plot_high_level(dat)
+```
+
+## Design Strategy & Research Preferences
+
+```{r Design, echo = FALSE, fig.width = 12, warnings = FALSE, message = FALSE}
+plot_design_data(dat)
+```
+
+* **Point** represents the average preference score
+* The confidence interval is bounded on the **lower end** with the minimum 
+preference score
+* The confidence interval is bounded on the **upper end** with the maximum 
+preference score
+
+## Visual Design Preferences
+
+```{r visual, echo = FALSE, fig.width = 12, warnings = FALSE, message = FALSE}
+plot_visual_data(dat)
+```
+
+* **Point** represents the average preference score
+* The confidence interval is bounded on the **lower end** with the minimum 
+preference score
+* The confidence interval is bounded on the **upper end** with the maximum 
+preference score
+
+## Interaction Design Preferences
+
+```{r interaction, echo = FALSE, fig.width = 12, warnings = FALSE, message = FALSE}
+plot_interaction_data(dat)
+```
+
+* **Point** represents the average preference score
+* The confidence interval is bounded on the **lower end** with the minimum 
+preference score
+* The confidence interval is bounded on the **upper end** with the maximum 
+preference score
+
+## Content Design Preferences
+
+```{r content, echo = FALSE, fig.width = 12, warnings = FALSE, message = FALSE}
+plot_content_data(dat)
+```
+
+* **Point** represents the average preference score
+* The confidence interval is bounded on the **lower end** with the minimum 
+preference score
+* The confidence interval is bounded on the **upper end** with the maximum 
+preference score
+
+## People Management Preferences
+
+```{r people, echo = FALSE, fig.width = 12, warnings = FALSE, message = FALSE}
+plot_people_data(dat)
+```
+
+* **Point** represents the average preference score
+* The confidence interval is bounded on the **lower end** with the minimum 
+preference score
+* The confidence interval is bounded on the **upper end** with the maximum 
+preference score
+
+# Individual Preferences
+
+```{r individual_preferences, echo = FALSE, fig.width = 12, fig.height = 9, warnings = FALSE, message = FALSE}
+plot_individual_preferences(dat)
+```
+
+For each person, average score in each area was calculated and ranked. 5 is the 
+highest rank for an individual and 1 is the lowest rank. 
+
+# High Level Areas & People Who Prefer Them
+
+For each high level design area, who has this ranked their highest?
+
+```{r table_preferences, echo = FALSE, fig.width = 12, fig.height = 9, warnings = FALSE, message = FALSE}
+library(knitr)
+
+sumdat <- top_people_per_group(dat)
+
+kable(sumdat)
+```

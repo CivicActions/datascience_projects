@@ -1,0 +1,482 @@
+---
+title: "Federal Digital Services Technology Dashboard"
+lang: en
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    social: menu
+    source_code: embed
+    css: ca.css
+---
+
+<script> $('.navbar-logo').wrap('<a href="https://datascience.civicactions.com/pages/projects/digital_services.html#overview">'); $('.navbar-brand').wrap('<a href="https://datascience.civicactions.com/pages/projects/digital_services.html#overview">'); </script>
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(scales)
+library(ggplot2)
+library(ggmosaic)
+library(plotly)
+library(dplyr)
+library(htmltools)
+library(rmarkdown)
+
+URL <- "https://ben.balter.com/2021-analysis-of-federal-dotgov-domains/data.csv"
+
+dat <- read.csv(URL)
+```
+
+Overview {data-navmenu="Select a Statistic"}
+=====================================
+
+Row 
+-----------------------------------------------------------------------
+
+### Unique, Federally Managed `.gov` Domains
+
+```{r}
+valueBox(comma(length(unique(dat$domain_name))))
+```
+
+### Unique, Federally Managed `.gov` Domains that are Live
+
+```{r}
+valueBox(comma(length(unique(dat$domain_name[dat$domain_up == "true"]))))
+```
+
+Row 
+-----------------------------------------------------------------------
+
+### `.gov` Domains that are Only Redirect to Another Domain
+
+```{r}
+valueBox(comma(length(unique(dat$domain_name[dat$domain_redirect == "true"]))))
+```
+
+### Reachable Without the `www` Prefix
+
+```{r}
+valueBox(comma(length(unique(dat$domain_name[dat$domain_root == "true"]))))
+```
+
+Row 
+-----------------------------------------------------------------------
+
+### `.gov` Domains Supporting IPV6
+
+```{r}
+valueBox(comma(length(unique(dat$domain_name[dat$dns_ipv6 == "true"]))))
+```
+
+### `.gov` Sites Using Open Source
+
+```{r}
+valueBox(comma(541))
+```
+
+Analytics {data-navmenu="Select a Statistic"}
+=====================================
+
+### Analytics
+
+#### Of those live, non-redirected domains, 492 (53.13%) had a detectable Analytics tool.
+
+```{r}
+viz_dat <- case_when(
+  grepl("Google Analytics.*and|and.*Google Analytics", dat$wappalyzer_analytics) ~ "Google Analytics + Other(s)",
+  grepl("Google Analytics", dat$wappalyzer_analytics) ~ "Google Analytics",
+  dat$wappalyzer_analytics == "" ~ "No Analytics Detected",
+  1 == 1 ~ "Other",
+)
+
+viz_dat <- data.frame(analytics = c("Google Analytics + Other(s)", 
+                                    "Google Analytics", 
+                                    "No Analytics Detected", "Other"),
+                      value = c(length(viz_dat[viz_dat == "Google Analytics + Other(s)"]),
+                                length(viz_dat[viz_dat == "Google Analytics"]),
+                                length(viz_dat[viz_dat == "No Analytics Detected"]),
+                                length(viz_dat[viz_dat == "Other"])))
+
+plot <- ggplot(viz_dat[viz_dat$analytics != "No Analytics Detected", ], 
+               aes(x = reorder(analytics, -value), y = value)) + 
+  geom_bar(stat = "identity", fill = "#2378c3", 
+             aes(text = sprintf("%s<br># of sites: %s", analytics, value))) + 
+  geom_text(label = viz_dat$value[viz_dat$analytics != "No Analytics Detected"], 
+            nudge_y = 10, size = 4) + 
+      theme(panel.background = element_blank(), 
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.ticks.y = element_line(color = "light gray"), 
+          axis.text = element_text(color = "black",size = 12),
+          axis.title = element_blank(), 
+          axis.text.y = element_text(color = "black"))
+
+ggplotly(plot, tooltip = "text")
+```
+
+Content Delivery Network {data-navmenu="Select a Statistic"}
+=====================================
+
+### Content Delivery Network
+
+#### Of those live, non-redirected domains, 165 (17.82%) had a detectable CDN.
+
+```{r}
+viz_dat <- dat[dat$wappalyzer_cdn != "", ] %>%
+    group_by(wappalyzer_cdn) %>%
+    summarise(count = length(wappalyzer_cdn))
+
+viz_dat$wappalyzer_cdn <- gsub("and", "and\n", viz_dat$wappalyzer_cdn)
+
+plot <- ggplot(viz_dat, aes(x = reorder(wappalyzer_cdn, -count), y = count)) + 
+    geom_bar(stat = "identity", fill = "#2378c3", 
+             aes(text = sprintf("%s<br># of sites: %s", wappalyzer_cdn, count))) +
+    geom_text(label = viz_dat$count, nudge_y = 3, size = 4) +
+    theme(panel.background = element_blank(), 
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.ticks.y = element_line(color = "light gray"), 
+          axis.text.x = element_text(color = "black", hjust = TRUE, size = 12),
+          axis.title = element_blank(), 
+          axis.text.y = element_text(color = "black"))
+
+ggplotly(plot, tooltip = "text")
+```
+
+Content Management System {data-navmenu="Select a Statistic"}
+=====================================
+
+### Content Management System
+
+#### Of those live, non-redirected domains, 305 (32.94%) had a detectable CMS.
+
+```{r}
+viz_dat <- dat[dat$wappalyzer_cms != "", ] %>%
+    group_by(wappalyzer_cms) %>%
+    summarise(count = length(wappalyzer_cms))
+
+tmp <- data.frame(wappalyzer_cms = "Other",
+                  count = sum(viz_dat$count[viz_dat$count < 5]))
+
+viz_dat <- viz_dat[viz_dat$count >= 5, ]
+viz_dat <- rbind(viz_dat, tmp)
+viz_dat$wappalyzer_cms <- case_when(
+  viz_dat$wappalyzer_cms == "Microsoft SharePoint" ~ "Microsoft\nSharePoint",
+  viz_dat$wappalyzer_cms == "Adobe Experience Manager" ~ "Adobe\nExp. Manager",
+  1 == 1 ~ viz_dat$wappalyzer_cms
+)
+
+plot <- ggplot(viz_dat, aes(x = reorder(wappalyzer_cms, -count), y = count)) + 
+    geom_bar(stat = "identity", fill = "#2378c3", 
+             aes(text = sprintf("%s<br># of sites: %s", wappalyzer_cms, count))) +
+    geom_text(label = viz_dat$count, nudge_y = 7, size = 4) +
+    theme(panel.background = element_blank(), 
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.ticks.y = element_line(color = "light gray"), 
+          axis.text.x = element_text(color = "black", hjust = TRUE, size = 12),
+          axis.title = element_blank(), 
+          axis.text.y = element_text(color = "black"))
+
+ggplotly(plot, tooltip = "text")
+```
+
+Font Scripts {data-navmenu="Select a Statistic"}
+=====================================
+
+### Font Scripts
+
+#### Of those live, non-redirected domains, 259 (27.09%) had a detectable Font Scripts.
+#### *Note: Some sites use multiple Font Scripts.*
+
+```{r}
+viz_dat <- dat[dat$wappalyzer_font_scripts != "", ] %>%
+    group_by(wappalyzer_font_scripts) %>%
+    summarise(count = length(wappalyzer_font_scripts))
+
+type <- data.frame(type = unique(unlist(strsplit(viz_dat$wappalyzer_font_scripts, " and "))))
+type$search <- gsub(" \\(Twemoji\\)", "", type$type)
+
+sum_dat <- data.frame()
+for(font in type$search){
+  tmp <- data.frame(type = type$type[type$search == font],
+                    count = sum(viz_dat$count[grepl(font, viz_dat$wappalyzer_font_scripts)]))
+  
+  sum_dat <- rbind(sum_dat, tmp)
+}
+
+plot <- ggplot(sum_dat, aes(x = reorder(type, -count), y = count)) + 
+    geom_bar(stat = "identity", fill = "#2378c3", 
+             aes(text = sprintf("%s<br># of sites: %s", type, count))) +
+    geom_text(label = sum_dat$count, nudge_y = 7, size = 4) +
+    theme(panel.background = element_blank(), 
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.ticks.y = element_line(color = "light gray"), 
+          axis.text.x = element_text(color = "black", hjust = TRUE, size = 12),
+          axis.title = element_blank(), 
+          axis.text.y = element_text(color = "black"))
+
+ggplotly(plot, tooltip = "text")
+```
+
+JavaScript Frameworks {data-navmenu="Select a Statistic"}
+=====================================
+
+### JavaScript Frameworks
+
+#### Of those live, non-redirected domains, 101 (10.91%) had a detectable JavaScript Framework.
+#### *Note: Some sites use multiple JavaScript Frameworks.*
+#### *Other Note: Other groups all JS Frameworks that were on less than 5 sites.*
+
+```{r}
+viz_dat <- dat[dat$wappalyzer_javascript_frameworks != "", ] %>%
+    group_by(wappalyzer_javascript_frameworks) %>%
+    summarise(count = length(wappalyzer_javascript_frameworks))
+
+type <- unique(unlist(strsplit(viz_dat$wappalyzer_javascript_frameworks, " and ")))
+
+sum_dat <- data.frame()
+for(JSF in type){
+  tmp <- data.frame(type = JSF,
+                    count = sum(viz_dat$count[grepl(JSF, viz_dat$wappalyzer_javascript_frameworks)]))
+  
+  sum_dat <- rbind(sum_dat, tmp)
+}
+
+tmp <- data.frame(type = "Other",
+                  count = sum(sum_dat$count[sum_dat$count < 5]))
+
+sum_dat <- sum_dat[sum_dat$count >= 5, ]
+sum_dat <- rbind(sum_dat, tmp)
+
+plot <- ggplot(sum_dat, aes(x = reorder(type, -count), y = count)) + 
+    geom_bar(stat = "identity", fill = "#2378c3", 
+             aes(text = sprintf("%s<br># of sites: %s", type, count))) +
+    geom_text(label = sum_dat$count, nudge_y = 1, size = 4) +
+    theme(panel.background = element_blank(), 
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.ticks.y = element_line(color = "light gray"), 
+          axis.text.x = element_text(color = "black", hjust = TRUE, size = 12),
+          axis.title = element_blank(), 
+          axis.text.y = element_text(color = "black"))
+
+ggplotly(plot, tooltip = "text")
+```
+Platform as a Service {data-navmenu="Select a Statistic"}
+=====================================
+
+### Platform as a Service
+
+#### Of those live, non-redirected domains, 168 (18.14%) had a detectable PAAS.
+
+```{r}
+viz_dat <- dat[dat$wappalyzer_paas != "", ] %>%
+    group_by(wappalyzer_paas) %>%
+    summarise(count = length(wappalyzer_paas))
+viz_dat$wappalyzer_paas <- gsub(" and ", "\nand ", viz_dat$wappalyzer_paas)
+
+viz_dat$wappalyzer_paas <- gsub("Amazon Web Services", "AWS", 
+                                viz_dat$wappalyzer_paas)
+
+plot <- ggplot(viz_dat, aes(x = reorder(wappalyzer_paas, -count), y = count)) + 
+    geom_bar(stat = "identity", fill = "#2378c3", 
+             aes(text = sprintf("%s<br># of sites: %s", wappalyzer_paas, count))) +
+    geom_text(label = viz_dat$count, nudge_y = 5, size = 4) +
+    theme(panel.background = element_blank(), 
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.ticks.y = element_line(color = "light gray"), 
+          axis.text.x = element_text(color = "black", hjust = TRUE, size = 12),
+          axis.title = element_blank(), 
+          axis.text.y = element_text(color = "black"))
+
+ggplotly(plot, tooltip = "text")
+```
+
+Programming Languages {data-navmenu="Select a Statistic"}
+=====================================
+
+### Programming Languages
+
+#### Of those live, non-redirected domains, 295 (31.86%) had a detectable Programming Language
+
+```{r}
+viz_dat <- dat[dat$wappalyzer_programming_languages != "", ] %>%
+    group_by(wappalyzer_programming_languages) %>%
+    summarise(count = length(wappalyzer_programming_languages))
+
+viz_dat$wappalyzer_programming_languages <- gsub(" and ", "\nand ", 
+                                                 viz_dat$wappalyzer_programming_languages)
+
+plot <- ggplot(viz_dat, aes(x = reorder(wappalyzer_programming_languages, -count), y = count)) + 
+    geom_bar(stat = "identity", fill = "#2378c3", 
+             aes(text = sprintf("%s<br># of sites: %s", wappalyzer_programming_languages, count))) +
+    geom_text(label = viz_dat$count, nudge_y = 5, size = 4) +
+    theme(panel.background = element_blank(), 
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.ticks.y = element_line(color = "light gray"), 
+          axis.text.x = element_text(color = "black", hjust = TRUE, size = 12),
+          axis.title = element_blank(), 
+          axis.text.y = element_text(color = "black"))
+
+ggplotly(plot, tooltip = "text")
+```
+
+SSL/TLS certificate authorities {data-navmenu="Select a Statistic"}
+=====================================
+
+### SSL/TLS certificate authorities
+
+#### Of those live, non-redirected domains, 260 (28.08%) had a detectable SSL/TLS Certificate Authority.
+
+```{r}
+viz_dat <- dat[dat$wappalyzer_ssl.tls_certificate_authorities != "", ] %>%
+    group_by(wappalyzer_ssl.tls_certificate_authorities) %>%
+    summarise(count = length(wappalyzer_ssl.tls_certificate_authorities))
+
+plot <- ggplot(viz_dat, aes(x = reorder(wappalyzer_ssl.tls_certificate_authorities, -count), y = count)) + 
+    geom_bar(stat = "identity", fill = "#2378c3", 
+             aes(text = sprintf("%s<br># of sites: %s", 
+                                wappalyzer_ssl.tls_certificate_authorities, 
+                                count))) +
+    geom_text(label = viz_dat$count, nudge_y = 5, size = 4) +
+    theme(panel.background = element_blank(), 
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.ticks.y = element_line(color = "light gray"), 
+          axis.text.x = element_text(color = "black", hjust = TRUE, size = 12),
+          axis.title = element_blank(), 
+          axis.text.y = element_text(color = "black"))
+
+ggplotly(plot, tooltip = "text")
+```
+
+Security {data-navmenu="Select a Statistic"}
+=====================================
+
+### Security
+
+```{r}
+viz_dat <- data.frame(Security = c("HTTPS Support", "HTST Support", 
+                                "DNSSEC Record"),
+                      value = c(dim(dat[dat$domain_https == "true", ])[1],
+                                dim(dat[dat$domain_hsts == "true", ])[1],
+                                dim(dat[dat$dns_dnssec == "true", ])[1]))
+
+plot <- ggplot(viz_dat, aes(x = reorder(Security, -value), y = value)) + 
+  geom_bar(stat = "identity", fill = "#2378c3", 
+             aes(text = sprintf("%s<br># of sites: %s", Security, value))) + 
+  geom_text(label = viz_dat$value, nudge_y = 35, size = 4) + 
+      theme(panel.background = element_blank(), 
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.ticks.y = element_line(color = "light gray"), 
+          axis.text = element_text(color = "black",size = 12),
+          axis.title = element_blank(), 
+          axis.text.y = element_text(color = "black"))
+
+ggplotly(plot, tooltip = "text")
+
+```
+
+
+<!-- UI Frameworks {data-navmenu="Select a Statistic"} -->
+<!-- ===================================== -->
+
+<!-- ### UI Frameworks -->
+
+<!-- #### Of those live, non-redirected domains, 225 (24.30%) had a detectable UI Framework. -->
+<!-- #### *Note: Some sites use multiple UI Frameworks.* -->
+
+<!-- ```{r} -->
+<!-- viz_dat <- dat[dat$wappalyzer_ui_frameworks != "", ] %>% -->
+<!--     group_by(wappalyzer_ui_frameworks) %>% -->
+<!--     summarise(count = length(wappalyzer_ui_frameworks)) -->
+
+<!-- type <- unique(unlist(strsplit(viz_dat$wappalyzer_ui_frameworks, " and "))) -->
+
+<!-- sum_dat <- data.frame() -->
+<!-- for(JSF in type){ -->
+<!--   tmp <- data.frame(type = JSF, -->
+<!--                     count = sum(viz_dat$count[grepl(JSF, viz_dat$wappalyzer_ui_frameworks)])) -->
+
+<!--   sum_dat <- rbind(sum_dat, tmp) -->
+<!-- } -->
+
+<!-- plot <- ggplot(sum_dat, aes(x = reorder(type, -count), y = count)) +  -->
+<!--     geom_bar(stat = "identity", fill = "#2378c3",  -->
+<!--              aes(text = sprintf("%s<br># of sites: %s",  -->
+<!--                                 type,  -->
+<!--                                 count))) + -->
+<!--     geom_text(label = sum_dat$count, nudge_y = 5, size = 4) + -->
+<!--     theme(panel.background = element_blank(),  -->
+<!--           panel.grid.major.y = element_line(color = "light gray"), -->
+<!--           panel.grid.major.x = element_blank(), axis.ticks.x = element_blank(), -->
+<!--           axis.ticks.y = element_line(color = "light gray"),  -->
+<!--           axis.text.x = element_text(color = "black", hjust = TRUE, size = 12), -->
+<!--           axis.title = element_blank(),  -->
+<!--           axis.text.y = element_text(color = "black")) -->
+
+<!-- ggplotly(plot, tooltip = "text") -->
+<!-- ``` -->
+
+
+Web Server {data-navmenu="Select a Statistic"}
+=====================================
+
+### Web Server
+
+#### Of those live, non-redirected domains, 393 (42.44%) had a detectable Web Server.
+#### *Note: Some sites use multiple Web Servers.*
+
+```{r}
+viz_dat <- dat[dat$wappalyzer_web_servers != "", ] %>%
+    group_by(wappalyzer_web_servers) %>%
+    summarise(count = length(wappalyzer_web_servers))
+
+type <- unique(unlist(strsplit(viz_dat$wappalyzer_web_servers, " and ")))
+
+sum_dat <- data.frame()
+for(JSF in type){
+  tmp <- data.frame(type = JSF,
+                    count = sum(viz_dat$count[grepl(JSF, viz_dat$wappalyzer_web_servers)]))
+  
+  sum_dat <- rbind(sum_dat, tmp)
+}
+
+sum_dat$type <- gsub(" ", "\n", sum_dat$type)
+
+plot <- ggplot(sum_dat, aes(x = reorder(type, -count), y = count)) + 
+    geom_bar(stat = "identity", fill = "#2378c3", 
+             aes(text = sprintf("%s<br># of sites: %s", 
+                                type, 
+                                count))) +
+    geom_text(label = sum_dat$count, nudge_y = 5, size = 4) +
+    theme(panel.background = element_blank(), 
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank(), axis.ticks.x = element_blank(),
+          axis.ticks.y = element_line(color = "light gray"), 
+          axis.text.x = element_text(color = "black", hjust = TRUE, size = 12),
+          axis.title = element_blank(), 
+          axis.text.y = element_text(color = "black"))
+
+ggplotly(plot, tooltip = "text")
+```
+
+About
+===========================
+
+This dashboard was created by the [CivicActions](https://www.civicactions.com) 
+[Data Science team](https://datascience.civicactions.com). 
+
+
+This dashboard is a visual representation of the 
+[analysis of federal.gov domains](https://ben.balter.com/2021/01/11/analysis-of-federal-dotgov-domains-pre-biden-edition/) by 
+[Ben Balter](https://ben.balter.com/). 
+
+
+This code can be found in its entirety in the 
+[CivicActions Data Science GitHub Repo](https://github.com/CivicActions/datascience_projects/tree/main/data%20viz/digital_services_viz).

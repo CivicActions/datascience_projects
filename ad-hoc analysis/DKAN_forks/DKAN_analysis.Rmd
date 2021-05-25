@@ -1,0 +1,84 @@
+---
+title: "Analysis of DKAN Community"
+author: "Jake Rozran"
+date: "2021-04-06"
+output: html_document
+---
+
+```{r setup, include = FALSE, warning = FALSE}
+source("R/get_fork_data.R")
+
+per_page <- 100
+
+repo <- "getDKAN/dkan"
+dkan_dat <- get_fork_data(repo, per_page)
+dkan_dat <- clean_fork_data(dkan_dat, repo)
+
+dkan_repo <- get_repo_data(repo)
+
+repo <- "ckan/ckan"
+ckan_dat <- get_fork_data(repo, per_page)
+ckan_dat <- clean_fork_data(ckan_dat, repo)
+
+ckan_repo <- get_repo_data(repo)
+```
+
+This is an analysis of the [getDKAN](https://github.com/GetDKAN)/[dkan](https://github.com/GetDKAN/dkan) 
+and [ckan](https://github.com/ckan)/[ckan](https://github.com/ckan/ckan) repositories.
+
+*This analysis was last run: `r Sys.time()`*
+
+All of the data and code can be found in the [CivicActions](https://civicactions.com) 
+[Data Science GitHub Repo](https://github.com/CivicActions/datascience/tree/main/ad-hoc%20analysis/DKAN_forks).
+
+# How many times has dkan been forked?
+
+dkan has been forked `r max(dkan_dat$fork_num)` times since 
+`r format(min(dkan_dat$created_at, na.rm = TRUE), "%B %d, %Y")`.
+
+```{r forks_over_time_dkan, echo = FALSE, warning = FALSE}
+source("R/analysis_functions.R")
+plot_forks_over_time(dkan_dat)
+```
+
+# How many times has ckan been forked?
+
+ckan has been forked `r max(ckan_dat$fork_num)` times since 
+`r format(min(ckan_dat$created_at, na.rm = TRUE), "%B %d, %Y")`.
+
+*Note: Branches were removed from this plot - there were too many to show clearly.*
+
+```{r forks_over_time_ckan, echo = FALSE, warning = FALSE}
+source("R/analysis_functions.R")
+plot_ckan_forks_over_time(ckan_dat)
+```
+
+# Are there active forks of dkan?
+
+Here are the forks that have pushes to them at least 30 days after the initial fork. 
+
+```{r active_repos_dkan, echo = FALSE, warning = FALSE}
+active_dat <- rbind(dkan_repo, dkan_dat[dkan_dat$activity > 30, 
+                                        c("full_name", "created_at", "pushed_at")])
+
+plot_active_forks(active_dat)
+```
+
+# Are there active forks of ckan?
+
+Here are the forks that have pushes to them at least 30 days after the initial fork. 
+
+```{r active_repos_ckan, echo = FALSE, fig.height = 40, warning = FALSE}
+active_dat <- rbind(ckan_repo, ckan_dat[ckan_dat$activity > 30, 
+                                        c("full_name", "created_at", "pushed_at")])
+
+plot_active_forks(active_dat)
+```
+
+# dkan vs. ckan
+
+Comparing the dkan open source community compared to that of ckan. 
+
+```{r dkan_ckan, echo = FALSE, warning = FALSE}
+plot_ckan_dkan_forks_over_time(dkan_dat, ckan_dat)
+```

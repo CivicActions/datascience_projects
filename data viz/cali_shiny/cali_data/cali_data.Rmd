@@ -1,0 +1,85 @@
+---
+title: "California - Statewide Telework Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+      orientation: row
+      social: menu
+      source_code: embed
+runtime: shiny
+---
+
+Things to do:
+
+1. Get the current dashboard created 
+2. Figure out how to host this static site
+2. Add CA favicon
+3. Add a logo for california
+4. Customize the CSS
+
+```{r global, include = FALSE}
+library(flexdashboard)
+library(scales)
+library(ggplot2)
+library(reshape2)
+
+URL <- paste0("https://data.ca.gov/dataset/4ce08c09-1b91-4ab8-997b-20bbe88cc4",
+               "11/resource/eea6715b-0a13-4bfc-8e42-1cd4f8481ac8/download/dgs-",
+               "telework-aggregate-by-week.csv")
+dat <- read.csv(URL)
+
+dat$Week <- as.Date(dat$Week, format = "%m/%d/%Y")
+dat$not_elig <- dat$All.Staff - dat$Telework.eligible.staff
+```
+
+<!-- Inputs  -->
+<!-- ----------------------------------------------------------------------- -->
+
+<!-- ```{r} -->
+<!-- dept <- unique(dat$Department) -->
+<!-- dept <- rbind("ALL", dept) -->
+
+<!-- selectInput("deptName", label = h3("Department Name"),  -->
+<!--             choices = dept,  -->
+<!--             selected = "ALL", multiple = TRUE) -->
+<!-- ``` -->
+
+Column 
+-----------------------------------------------------------------------
+
+### All Staff 
+
+```{r}
+tot_empl <- comma(sum(dat$All.Staff[dat$Week == max(dat$Week)], na.rm = TRUE))
+
+valueBox(tot_empl, icon = "fa-user-friends")
+```
+
+### Eligible for Telework
+
+```{r}
+tele_empl <- comma(sum(dat$Telework.eligible.staff[dat$Week == max(dat$Week)], na.rm = TRUE))
+
+valueBox(tele_empl, icon = "fa-headset")
+```
+
+### Not Eligible for Telework
+
+```{r}
+not_empl <- comma(sum(dat$All.Staff[dat$Week == max(dat$Week)], na.rm = TRUE) - 
+                      sum(dat$Telework.eligible.staff[dat$Week == max(dat$Week)], na.rm = TRUE))
+
+valueBox(not_empl, icon = "fa-car")
+```
+
+Column 
+-----------------------------------------------------------------------
+
+### Telework Eligible Over Time
+
+```{r}
+tmp <- melt(dat, id.vars = c("Week"), 
+            measure.vars = c("Telework.eligible.staff", "not_elig"))
+
+ggplot(data = tmp, aes(x = Week, group = variable, y = value, fill = variable)) + 
+    geom_bar(stat = "identity")
+```
