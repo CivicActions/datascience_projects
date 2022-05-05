@@ -1,3 +1,4 @@
 # Civic Actions Data Science
 
-This is a new area just created and this repo is a WIP.
+These are some projects that the Data Science Practice Area has worked on
+collectively. 
