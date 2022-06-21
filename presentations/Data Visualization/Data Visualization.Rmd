@@ -1,0 +1,824 @@
+---
+title: "Introduction to Data Visualization"
+subtitle: "CivicActions"  
+author: "Jake Rozran"
+date: "June 21, 2022"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+    fig.width = 9, 
+    fig.height = 3.5, 
+    fig.retina = 3,
+    out.width = "100%",
+    cache = FALSE,
+    echo = FALSE,
+    message = FALSE, 
+    warning = FALSE,
+    hiline = TRUE
+)
+
+library(tibble)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+library(scales)
+library(ggplot2)
+library(RColorBrewer)
+library(mdsr)
+library(readr)
+library(stringr)
+library(lubridate)
+library(jsonlite)
+```
+
+```{r xaringan-themer, include = FALSE, warning = FALSE}
+library(xaringanthemer)
+style_duo_accent(primary_color = "#D83933", 
+                 secondary_color = "#00A398",
+                 code_font_size = "0.5rem")
+
+# "#f24244"
+```
+
+```{r xaringan-logo, echo=FALSE}
+library(xaringanExtra)
+
+use_logo(image_url = "data_viz_files/CA-Full-Logo-Red-1292x204.png",
+         exclude_class = "hide_logo",
+         link_url = "https://www.civicactions.com/",
+         position = css_position(left = "1em", bottom = "-4.5em"))
+```
+
+---
+
+class: center, middle
+
+# Where is this "Expertise" Coming From?
+
+![data_viz_book](data_viz_files/data_viz_book.jpeg)
+---
+
+class: center, middle
+
+# Where Else is this "Expertise" Coming From?
+
+![mdsr](data_viz_files/mdsr.png)
+
+---
+
+class: left, middle
+
+# Getting Setup for Exercise
+
+## [Download and open (in Excel) the Iris dataset](https://github.com/jrozra200/GFA/blob/main/Data%20Visualization/Data%20Exercise/iris_data.csv) OR
+
+- PREFERRED - but only if you already have Microsoft Excel installed! (I know 
+it says Google Sheets... but trust me here.)
+- [https://tinyurl.com/iris-google-sheets](https://tinyurl.com/iris-google-sheets)
+
+## [Open the data in Google Sheets](https://docs.google.com/spreadsheets/d/1urFs4EiL2DpRT-JVdxqKS9kWyG9051qoZ7B4oxWNsF8/edit?usp=sharing)
+
+- Make a copy of the spreadsheet so you can edit!
+- [https://tinyurl.com/GFA-iris-google-sheets](https://tinyurl.com/GFA-iris-google-sheets)
+
+---
+
+class: center, middle
+
+# How to Create Effective Charts
+
+![data_viz_process](data_viz_files/process.png)
+
+---
+
+class: left, middle
+
+# 1. Research
+
+This is where you are finding, exploring, and understanding the limitations of 
+your data.
+
+```{r iris_explore, echo = FALSE, message = FALSE}
+data("iris")
+
+iris <- tibble(iris)
+iris %>% 
+    head() %>%
+    kbl() %>%
+    kable_material(c("striped", "hover"))
+```
+
+---
+
+class: center, middle
+
+# Who can tell me something about the dataset?
+
+---
+
+class: left, middle
+
+# 2. Edit
+
+This is where you are identifying your key message, choosing the best data to 
+convey your message, filtering and simplifying your data, and making numerical 
+adjustments.
+
+---
+
+class: center, middle
+
+# What is something we can explore?
+
+---
+
+class: left, middle
+
+# Average Sepal Length and Width by Species
+
+Let's create this together. 
+
+```{r iris_edit, echo = FALSE, message = FALSE}
+sum_iris <- iris %>% 
+    group_by(Species) %>% 
+    summarise(mean_sepal_length = mean(Sepal.Length),
+              mean_sepal_width = mean(Sepal.Width))
+
+iris <- iris %>% 
+    left_join(sum_iris, by = "Species") %>% 
+    mutate(percent_from_avg_l = (Sepal.Length - mean_sepal_length) / mean_sepal_length,
+           percent_from_avg_w = (Sepal.Width - mean_sepal_width) / mean_sepal_width) 
+
+iris <- iris %>% 
+    mutate(color = ifelse(percent_from_avg_l == min(iris$percent_from_avg_l), 
+                          "black", "red"))
+
+sum_iris %>% 
+    rename(`Avg Sepal Length` = mean_sepal_length,
+           `Avg Sepal Width` = mean_sepal_width) %>% 
+    head() %>%
+    kbl() %>%
+    kable_material(c("striped", "hover"))
+```
+---
+
+class: left, middle
+
+# Difference from the Average for Each Row
+
+Let's create this together. 
+
+```{r difference, echo = FALSE, message = FALSE}
+iris %>% 
+    select(Sepal.Length,
+           Sepal.Width,
+           Species,
+           mean_sepal_length,
+           mean_sepal_width,
+           percent_from_avg_l,
+           percent_from_avg_w) %>% 
+    mutate(percent_from_avg_l = round(percent_from_avg_l, 3),
+           percent_from_avg_w = round(percent_from_avg_w, 3)) %>% 
+    rename(`Sepal Length` = Sepal.Length,
+           `Sepal Width` = Sepal.Width,
+           `Avg. Length` = mean_sepal_length,
+           `Avg. Width` = mean_sepal_width,
+           `Pct. Diff. Len.` = percent_from_avg_l,
+           `Pct. Diff. Wid.` = percent_from_avg_w) %>%
+    head() %>%
+    kbl() %>%
+    kable_material(c("striped", "hover"))
+```
+
+---
+
+class: left, middle
+
+# 3. Plot
+
+At this step, you are choosing the proper plot type, ensuring your plot axes are 
+correct, title and labels are included, and color and typography are clear 
+(more on that shortly).
+
+```{r plot_iris, echo = FALSE}
+ggplot(sum_iris, aes(x = reorder(Species, mean_sepal_length), 
+                     y = mean_sepal_length)) +
+    geom_bar(stat = "identity", fill = "#1a3f6f") + 
+    ggtitle("Mean Sepal Length for Iris Data Set", 
+            subtitle = "Stock Dataset for Data Science") +
+    xlab("Species") +
+    ylab("Sepal Length (inches)") +
+    coord_flip() + 
+    theme(panel.background = element_blank(),
+          panel.grid = element_blank(),
+          axis.ticks = element_blank())
+```
+
+---
+
+class: left, middle
+
+```{r initial_scatter, echo = FALSE}
+ggplot(iris, aes(x = percent_from_avg_l, 
+                 y = percent_from_avg_w)) +
+    geom_point(color = "#1a3f6f") + 
+    geom_hline(yintercept = 0) + 
+    geom_vline(xintercept = 0) +
+    ggtitle("Percent Difference from Averages") +
+    xlab("Percent Difference from Length") +
+    ylab("Percent Difference from Width") +
+    scale_x_continuous(labels = percent_format()) +
+    scale_y_continuous(labels = percent_format()) +
+    theme(panel.background = element_blank(),
+          panel.grid = element_blank(),
+          axis.ticks = element_blank(),
+          legend.position = "none")
+```
+
+---
+
+class: left, middle
+
+# 4. Review
+
+Often overlooked due to expediency, ensuring the data is accurate will preempt 
+questions and enhance trust in the data. 
+
+--
+
+```{r plot_review, echo = FALSE}
+ggplot(iris, aes(x = percent_from_avg_l, 
+                 y = percent_from_avg_w, 
+                 color = color)) +
+    geom_point() + 
+    scale_color_manual(values = c("red", "#1a3f6f")) + 
+    geom_hline(yintercept = 0) + 
+    geom_vline(xintercept = 0) +
+    ggtitle("Percent Difference from Averages", 
+            subtitle = "Is the Red Point an Outlier or Bad Data?") +
+    xlab("Percent Difference from Length") +
+    ylab("Percent Difference from Width") +
+    scale_x_continuous(labels = percent_format()) +
+    scale_y_continuous(labels = percent_format()) +
+    theme(panel.background = element_blank(),
+          panel.grid = element_blank(),
+          axis.ticks = element_blank(),
+          legend.position = "none")
+```
+
+
+---
+
+class: middle, center
+
+# It is _easy_ to slap something together. It is **HARD** to put something clean, clear, and meaningful together.
+
+---
+
+class: top, left
+
+# A taxonomy for data graphics
+
+Taxonomy, smaxonomy. That's just a fancy name for saying you got to know the 
+finer parts of a data viz before you, too, can make fine data viz. 
+
+.pull-left[
+Data graphics can be understood in terms of four basic elements: 
+
+1. Visual cues
+2. Coordinate systems
+3. Scale
+4. Context
+]
+
+.pull-right[
+*And two bonus items:* 
+
+1. Facets
+2. Layers
+]
+
+---
+
+class: top, left
+
+# Visual Cues 
+
+**These are the building blocks of data viz.** Visual cues are graphical 
+elements that draw the eye to what we want our audience to focus upon. Human 
+beings' ability to perceive difference in magnitude accurately decends in this 
+order.
+
+```{r viz_cue}
+tribble(
+        ~`Visual Cue`, ~`Variable Type`, ~Question,
+        "Position", "numerical", "where in relation to other things?",
+        "Length", "numerical", "how big (in one dimension)?",
+        "Angle", "numerical", "how wide? parallel to something else?",
+        "Direction", "numerical", "at what slope? in a time series, going up or down?",
+        "Shape", "categorical", "belonging to which group?",
+        "Area", "numerical", "how big (in two dimensions)?",
+        "Volume", "numerical", "how big (in three dimensions)?",
+        "Shade", "either", "to what extent? how severely?",
+        "Color", "either", "to what extent? how severely?"
+    ) %>%
+        mdsr_table(caption = "Visual cues and what they signify.") %>%
+        kableExtra::column_spec(3, width = "24em")
+```
+
+---
+
+# Position, Length, & Area
+
+Because I feel like this is getting a little too much me talking at you, let us 
+do an example together.
+
+Someone tell me what they see in this plot, especially as it relates to 
+**position**, **length**, and **area**? Which letter has the most?
+
+```{r bad_good, echo = FALSE}
+bad_dat <- data.frame(variable = c("a", "b", "c", "d", "e"),
+                      value = c(22, 21, 20, 19, 18))
+
+bad_graph <- ggplot(bad_dat, aes(x = "", y = value, fill = variable)) +
+    geom_bar(stat = "identity") + 
+    coord_polar("y", start = 0) + 
+    scale_fill_brewer(palette = "Blues") + 
+    theme(legend.position = "top",
+          legend.title = element_blank(),
+          panel.background = element_blank(),
+          axis.ticks = element_blank(),
+          axis.title = element_blank(),
+          axis.text = element_text(size = 12),
+          legend.text = element_text(size = 12))
+
+better_graph <- ggplot(bad_dat, aes(x = variable, y = value, fill = variable)) +
+    geom_bar(stat = "identity") + 
+    scale_fill_brewer(palette = "Blues") + 
+    theme(legend.position = "top",
+          legend.title = element_blank(),
+          panel.background = element_blank(),
+          axis.ticks = element_blank(),
+          axis.title = element_blank(),
+          panel.grid.major.y = element_line(color = "light gray"),
+          axis.text = element_text(size = 12),
+          legend.text = element_text(size = 12))
+```
+
+
+.pull-left[
+```{r bad_graph, echo = FALSE, out.width = "100%", fig.height = 6}
+bad_graph
+```
+]
+
+--
+
+.pull-right[
+```{r better_graph, echo = FALSE, out.width = "100%", fig.height = 6}
+better_graph
+```
+]
+
+---
+
+class: top, left
+
+### Direction
+
+What **direction** do we see in this plot? Anything else?
+
+```{r direction_code}
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) + 
+    geom_point() + 
+    theme(panel.background = element_blank(),
+          axis.ticks = element_blank(),
+          axis.title = element_blank(),
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_line(color = "light gray"),
+          panel.grid.minor.y = element_blank(),
+          panel.grid.minor.x = element_blank())
+```
+
+
+---
+
+class: top, left
+
+### Angle, Color, Shape
+
+Talk to me about the **angle, color, and shape**.
+
+```{r acs_code}
+ggplot(iris, aes(x = Sepal.Length, 
+                 y = Sepal.Width, 
+                 color = Species, 
+                 shape = Species)) + 
+    geom_point() + 
+    geom_smooth(method = "lm", se = FALSE) + 
+    scale_color_brewer(palette = "Blues") + 
+    theme(panel.background = element_blank(),
+          axis.ticks = element_blank(),
+          axis.title = element_blank(),
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_line(color = "light gray"),
+          panel.grid.minor.y = element_blank(),
+          panel.grid.minor.x = element_blank())
+```
+
+
+---
+
+class: left, middle
+
+# Plots Speak Louder than Words
+
+.pull-left[
+
+## Do NOT!
+
+> Company A had revenues of $1MM and Company B had revenues of $750k in FY2021.
+
+]
+
+.pull-right[
+
+## Do!
+
+```{r plots, echo = FALSE}
+plot_dat <- tibble(company = c("A", "B"),
+                   revenue = c(1000000, 750000))
+
+ggplot(plot_dat, aes(x = reorder(company, revenue), y = revenue)) +
+    geom_bar(stat = "identity", fill = "#1a3f6f") +
+    scale_y_continuous(limits = c(0, 1100000)) +
+    geom_text(aes(label = dollar(revenue)), hjust = 0, size = 5) + 
+    ggtitle("Annual Company Earnings ($)", 
+            subtitle = "Visualization Gives a Fuller Understanding of the Data.") +
+    xlab("Company") +
+    ylab("Revenue ($)") +
+    coord_flip() + 
+    theme(panel.background = element_blank(),
+          panel.grid = element_blank(),
+          axis.ticks = element_blank(), 
+          axis.text.y = element_text(size = 14),
+          axis.text.x = element_blank(),
+          axis.title = element_blank(),
+          plot.title = element_text(size = 18))
+```
+]
+
+---
+
+class: left, middle
+
+# Let the Data Speak for Itself
+
+Do not use any bs to make the graph "pretty." A clean crisp chart allows the 
+reader to focus on the data and the message of the story.
+
+This means:
+
+1. No 3D rendering EVER
+2. No "pretty" colors (more on this soon)
+3. No heavy grid lines
+4. NEVER NEVER NEVER a pie chart (though the WSJ doesn't agree with me)
+
+---
+
+class: left, middle
+
+# Misrepresenting the Trend
+
+.pull-left[
+    ![bad_y_axis](data_viz_files/temp_change.png)
+]
+
+--
+
+.pull-right[
+
+```{r temp, fig.height = 8}
+dat <- read_csv("data_viz_files/tas_timeseries_annual_cru_1901-2020_USA.csv") %>% 
+    select(year, `United States`) %>% 
+    rename(temp = `United States`) %>% 
+    mutate(year = as_date(paste0(year, "-01-01")),
+           temp = (temp * 1.8) + 32)
+
+ggplot(dat, aes(x = year, y = temp)) + 
+    geom_line(size = 1.25) + 
+    scale_y_continuous(limits = c(mean(dat$temp) - 4, mean(dat$temp) + 4)) + 
+    ggtitle("Average US Temperature in Fahrenheit\n1901 - 2020") + 
+    theme(panel.background = element_blank(),
+          axis.ticks = element_blank(), 
+          axis.title= element_blank(),
+          axis.text = element_text(size = 14),
+          plot.title = element_text(size = 18),
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank())
+
+```
+
+]
+
+---
+
+class: left, middle
+
+# Misrepresenting the Trend
+
+.pull-left[
+
+- The data should fill about 2/3 of the y-axis height
+  
+- The line should not be too thick or thin
+  
+- The grid shouldn't be thicker than the line
+  
+- The y-axis increments shouldn't be awkward
+    - Natural increments: (1s, 2s, 5s, 10s, etc.)
+    - Awkward increments: (3s, 6s, 8s, 12s, etc.)
+
+]
+
+.pull-right[
+
+```{r temp_2, fig.height = 8}
+ggplot(dat, aes(x = year, y = temp)) + 
+    geom_line(size = 1.25) + 
+    scale_y_continuous(limits = c(mean(dat$temp) - 4, mean(dat$temp) + 4)) + 
+    ggtitle("Average US Temperature in Fahrenheit\n1901 - 2020") + 
+    theme(panel.background = element_blank(),
+          axis.ticks = element_blank(), 
+          axis.title= element_blank(),
+          axis.text = element_text(size = 14),
+          plot.title = element_text(size = 18),
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank())
+
+```
+
+]
+
+---
+
+class: left, middle
+
+# Zero Baseline
+
+- With line charts, as we just saw, we want the y-axis to be the right size
+- With bar charts, we are interpreting area; because of this, we always start 
+at 0
+
+.pull-left[
+
+```{r zero_bad, fig.height = 7}
+# dat <- fromJSON("https://data.cdc.gov/resource/9mfq-cb36.json") %>% 
+#     write.csv(., "data_viz_files/covid_data_06202022.csv", row.names = FALSE)
+
+dat <- read_csv("data_viz_files/covid_data_06202022.csv") %>% 
+    select(submission_date,
+           state, 
+           tot_death) %>% 
+    mutate(submission_date = as_date(gsub("T00:00:00.000", "", submission_date)),
+           tot_death = as.numeric(tot_death)) %>% 
+    filter((state == "MI" | state == "CA")) %>%
+    filter((submission_date == "2022-03-09" | 
+                submission_date == "2022-03-11"))
+
+ggplot(dat, aes(x = state, y = tot_death)) + 
+    geom_bar(stat = "identity", fill = "#1a3f6f") + 
+    ggtitle("Total Deaths due to COVID-19\nCA vs MI",
+            subtitle = "Data as of March 2022") + 
+    scale_y_continuous(labels = comma_format()) +
+    coord_cartesian(ylim = c(33000, 87000)) + 
+    theme(panel.background = element_blank(),
+          axis.ticks = element_blank(), 
+          axis.title= element_blank(),
+          axis.text = element_text(size = 14),
+          plot.title = element_text(size = 18),
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank())
+```
+
+]
+
+--
+
+.pull-right[
+
+```{r zero_good, fig.height = 7}
+ggplot(dat, aes(x = state, y = tot_death)) + 
+    geom_bar(stat = "identity", fill = "#1a3f6f") + 
+    ggtitle("Total Deaths due to COVID-19\nCA vs MI",
+            subtitle = "Data as of March 2022") + 
+    scale_y_continuous(labels = comma_format()) + 
+    theme(panel.background = element_blank(),
+          axis.ticks = element_blank(), 
+          axis.title= element_blank(),
+          axis.text = element_text(size = 14),
+          plot.title = element_text(size = 18),
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank())
+```
+
+]
+
+---
+
+class: left, middle
+
+# Zero Baseline
+
+.pull-left[
+
+- We can clearly see that MI has about half the total COVID Deaths as CA
+- Even this plot may still be misleading or hard to interpret: CA and MI have 
+vastly different populations (should probably be a percentage of population)
+
+]
+
+.pull-right[
+
+```{r zero_good_2, fig.height = 7}
+ggplot(dat, aes(x = state, y = tot_death)) + 
+    geom_bar(stat = "identity", fill = "#1a3f6f") + 
+    ggtitle("Total Deaths due to COVID-19\nCA vs MI",
+            subtitle = "Data as of March 2022") + 
+    scale_y_continuous(labels = comma_format()) + 
+    theme(panel.background = element_blank(),
+          axis.ticks = element_blank(), 
+          axis.title= element_blank(),
+          axis.text = element_text(size = 14),
+          plot.title = element_text(size = 18),
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank())
+```
+
+]
+
+---
+
+class: left, middle
+
+# Order Bars in the Correct Order
+
+.pull-left[
+
+This is not good (look at the dates).
+
+![Bad COVID Data](data_viz_files/covid-ga-recreation.jpeg)
+
+]
+
+.pull-right[
+- Ordinal data should stay in order 
+    - Grades
+    - Dates
+    - Age groups (Child, Teen, Young Adult, Adult, etc)
+]
+
+
+---
+
+class: left, middle
+
+# Order Bars in the Correct Order
+
+Other categorical data should be reordered so the "highest" is on the left and 
+"lowest" is on the right.
+
+```{r reorder}
+dat <- read_csv("data_viz_files/covid_data_06202022.csv") %>% 
+    select(submission_date,
+           state, 
+           tot_death, 
+           tot_cases) %>% 
+    filter(state %in% c("MD", "DE", "CA", "MI")) %>% 
+    mutate(death_to_case_rate = tot_death / tot_cases)
+
+max_date <- dat %>% 
+    group_by(state) %>% 
+    summarise(max_date = max(submission_date))
+
+dat <- dat %>% 
+    inner_join(max_date, by = c("submission_date" = "max_date", "state" = "state"))
+
+ggplot(dat, aes(x = reorder(state, -death_to_case_rate), y = death_to_case_rate)) + 
+    geom_bar(stat = "identity", fill = "#1a3f6f") + 
+    ggtitle("Total Deaths per Confimed COVID-19 Case",
+            subtitle = "Data as of March 2022") + 
+    scale_y_continuous(labels = comma_format()) + 
+    theme(panel.background = element_blank(),
+          axis.ticks = element_blank(), 
+          axis.title= element_blank(),
+          axis.text = element_text(size = 14),
+          plot.title = element_text(size = 18),
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank())
+```
+
+---
+
+class: left, middle
+
+# Too many lines on a plot
+
+When you have too many categories, you should split your plot into separate 
+"facets."
+
+.pull-left[
+
+```{r too_many_lines, fig.height = 7}
+dat <- read_csv("data_viz_files/covid_data_06202022.csv") %>% 
+    select(submission_date,
+           state, 
+           tot_death, 
+           tot_cases) %>% 
+    mutate(death_to_case_rate = tot_death / tot_cases)
+
+ggplot(dat, aes(x = submission_date, 
+                y = death_to_case_rate, 
+                group = state, 
+                color = state)) + 
+    geom_line() + 
+    ggtitle("Total Deaths per Confimed COVID-19 Case over Time") + 
+    scale_y_continuous(labels = comma_format()) + 
+    theme(panel.background = element_blank(),
+          axis.ticks = element_blank(), 
+          axis.title = element_blank(),
+          axis.text = element_text(size = 14),
+          plot.title = element_text(size = 18),
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank(),
+          legend.position = "top",
+          legend.title = element_blank(), 
+          legend.key = element_blank())
+```
+]
+
+--
+
+.pull-right[
+```{r facets, fig.height = 7}
+ggplot(dat, aes(x = submission_date, 
+                y = death_to_case_rate)) + 
+    geom_line(color = "#1a3f6f") + 
+    ggtitle("Total Deaths per Confimed COVID-19 Case over Time") + 
+    scale_y_continuous(labels = comma_format()) + 
+    facet_wrap(~ state) + 
+    theme(panel.background = element_blank(),
+          axis.ticks = element_blank(), 
+          axis.title = element_blank(),
+          axis.text = element_text(size = 14),
+          plot.title = element_text(size = 18), 
+          strip.background = element_blank(), 
+          panel.grid.major.y = element_line(color = "light gray"),
+          panel.grid.major.x = element_blank())
+```
+]
+
+---
+
+class: left, middle
+
+# Negative Values
+
+.pull-left[
+![stand your ground](data_viz_files/stand_your_ground.png)
+]
+
+.pull-right[
+This is another example of what not to do.
+
+Any values under the x-axis or left of the y-axis are treated naturally as 
+negative values. It is misleading to flip the axes.
+]
+
+---
+
+class: left, middle
+
+# Another Exercise Together!
+
+https://tinyurl.com/GFA-DV-Final
+
+---
+
+class: left, middle
+
+# Learning More
+
+1. [SQL](https://www.edx.org/course/sql-for-data-science)
+2. [Tableau or other Data Visualization Tool](https://www.edx.org/course/data-representation-and-visualization-in-tableau)
+3. [Data analysis in R](https://www.edx.org/professional-certificate/harvardx-data-science)

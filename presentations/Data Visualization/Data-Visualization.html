@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introduction to Data Visualization</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jake Rozran" />
+    <meta name="date" content="2022-06-21" />
+    <script src="Data-Visualization_files/header-attrs/header-attrs.js"></script>
+    <script src="Data-Visualization_files/kePrint/kePrint.js"></script>
+    <link href="Data-Visualization_files/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Introduction to Data Visualization
+]
+.subtitle[
+## CivicActions
+]
+.author[
+### Jake Rozran
+]
+.date[
+### June 21, 2022
+]
+
+---
+
+
+
+
+
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 110px;
+height: 128px;
+z-index: 0;
+background-image: url(data_viz_files/CA-Full-Logo-Red-1292x204.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+bottom:-4.5em;left:1em;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('a')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = 'https://www.civicactions.com/'
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+---
+
+class: center, middle
+
+# Where is this "Expertise" Coming From?
+
+![data_viz_book](data_viz_files/data_viz_book.jpeg)
+---
+
+class: center, middle
+
+# Where Else is this "Expertise" Coming From?
+
+![mdsr](data_viz_files/mdsr.png)
+
+---
+
+class: left, middle
+
+# Getting Setup for Exercise
+
+## [Download and open (in Excel) the Iris dataset](https://github.com/jrozra200/GFA/blob/main/Data%20Visualization/Data%20Exercise/iris_data.csv) OR
+
+- PREFERRED - but only if you already have Microsoft Excel installed! (I know 
+it says Google Sheets... but trust me here.)
+- [https://tinyurl.com/iris-google-sheets](https://tinyurl.com/iris-google-sheets)
+
+## [Open the data in Google Sheets](https://docs.google.com/spreadsheets/d/1urFs4EiL2DpRT-JVdxqKS9kWyG9051qoZ7B4oxWNsF8/edit?usp=sharing)
+
+- Make a copy of the spreadsheet so you can edit!
+- [https://tinyurl.com/GFA-iris-google-sheets](https://tinyurl.com/GFA-iris-google-sheets)
+
+---
+
+class: center, middle
+
+# How to Create Effective Charts
+
+![data_viz_process](data_viz_files/process.png)
+
+---
+
+class: left, middle
+
+# 1. Research
+
+This is where you are finding, exploring, and understanding the limitations of 
+your data.
+
+&lt;table class=" lightable-material lightable-striped lightable-hover" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Sepal.Length &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sepal.Width &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Petal.Length &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Petal.Width &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Species &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+class: center, middle
+
+# Who can tell me something about the dataset?
+
+---
+
+class: left, middle
+
+# 2. Edit
+
+This is where you are identifying your key message, choosing the best data to 
+convey your message, filtering and simplifying your data, and making numerical 
+adjustments.
+
+---
+
+class: center, middle
+
+# What is something we can explore?
+
+---
+
+class: left, middle
+
+# Average Sepal Length and Width by Species
+
+Let's create this together. 
+
+&lt;table class=" lightable-material lightable-striped lightable-hover" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Species &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Avg Sepal Length &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Avg Sepal Width &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.006 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.428 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; versicolor &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.936 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.770 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; virginica &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.588 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.974 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+---
+
+class: left, middle
+
+# Difference from the Average for Each Row
+
+Let's create this together. 
+
+&lt;table class=" lightable-material lightable-striped lightable-hover" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Sepal Length &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sepal Width &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Species &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Avg. Length &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Avg. Width &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pct. Diff. Len. &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pct. Diff. Wid. &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.006 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.428 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.019 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.021 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.006 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.428 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.021 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.125 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.006 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.428 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.061 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.067 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.006 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.428 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.081 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.096 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.6 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.006 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.428 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.050 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.9 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.006 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.428 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.079 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.138 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+class: left, middle
+
+# 3. Plot
+
+At this step, you are choosing the proper plot type, ensuring your plot axes are 
+correct, title and labels are included, and color and typography are clear 
+(more on that shortly).
+
+&lt;img src="Data-Visualization_files/figure-html/plot_iris-1.png" width="100%" /&gt;
+
+---
+
+class: left, middle
+
+&lt;img src="Data-Visualization_files/figure-html/initial_scatter-1.png" width="100%" /&gt;
+
+---
+
+class: left, middle
+
+# 4. Review
+
+Often overlooked due to expediency, ensuring the data is accurate will preempt 
+questions and enhance trust in the data. 
+
+--
+
+&lt;img src="Data-Visualization_files/figure-html/plot_review-1.png" width="100%" /&gt;
+
+
+---
+
+class: middle, center
+
+# It is _easy_ to slap something together. It is **HARD** to put something clean, clear, and meaningful together.
+
+---
+
+class: top, left
+
+# A taxonomy for data graphics
+
+Taxonomy, smaxonomy. That's just a fancy name for saying you got to know the 
+finer parts of a data viz before you, too, can make fine data viz. 
+
+.pull-left[
+Data graphics can be understood in terms of four basic elements: 
+
+1. Visual cues
+2. Coordinate systems
+3. Scale
+4. Context
+]
+
+.pull-right[
+*And two bonus items:* 
+
+1. Facets
+2. Layers
+]
+
+---
+
+class: top, left
+
+# Visual Cues 
+
+**These are the building blocks of data viz.** Visual cues are graphical 
+elements that draw the eye to what we want our audience to focus upon. Human 
+beings' ability to perceive difference in magnitude accurately decends in this 
+order.
+
+&lt;table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;"&gt;
+&lt;caption&gt;Visual cues and what they signify.&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Visual Cue &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Variable Type &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Question &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Position &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; numerical &lt;/td&gt;
+   &lt;td style="text-align:left;width: 24em; "&gt; where in relation to other things? &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Length &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; numerical &lt;/td&gt;
+   &lt;td style="text-align:left;width: 24em; "&gt; how big (in one dimension)? &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Angle &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; numerical &lt;/td&gt;
+   &lt;td style="text-align:left;width: 24em; "&gt; how wide? parallel to something else? &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Direction &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; numerical &lt;/td&gt;
+   &lt;td style="text-align:left;width: 24em; "&gt; at what slope? in a time series, going up or down? &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Shape &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; categorical &lt;/td&gt;
+   &lt;td style="text-align:left;width: 24em; "&gt; belonging to which group? &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Area &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; numerical &lt;/td&gt;
+   &lt;td style="text-align:left;width: 24em; "&gt; how big (in two dimensions)? &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Volume &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; numerical &lt;/td&gt;
+   &lt;td style="text-align:left;width: 24em; "&gt; how big (in three dimensions)? &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Shade &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; either &lt;/td&gt;
+   &lt;td style="text-align:left;width: 24em; "&gt; to what extent? how severely? &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Color &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; either &lt;/td&gt;
+   &lt;td style="text-align:left;width: 24em; "&gt; to what extent? how severely? &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Position, Length, &amp; Area
+
+Because I feel like this is getting a little too much me talking at you, let us 
+do an example together.
+
+Someone tell me what they see in this plot, especially as it relates to 
+**position**, **length**, and **area**? Which letter has the most?
+
+
+
+
+.pull-left[
+&lt;img src="Data-Visualization_files/figure-html/bad_graph-1.png" width="100%" /&gt;
+]
+
+--
+
+.pull-right[
+&lt;img src="Data-Visualization_files/figure-html/better_graph-1.png" width="100%" /&gt;
+]
+
+---
+
+class: top, left
+
+### Direction
+
+What **direction** do we see in this plot? Anything else?
+
+&lt;img src="Data-Visualization_files/figure-html/direction_code-1.png" width="100%" /&gt;
+
+
+---
+
+class: top, left
+
+### Angle, Color, Shape
+
+Talk to me about the **angle, color, and shape**.
+
+&lt;img src="Data-Visualization_files/figure-html/acs_code-1.png" width="100%" /&gt;
+
+
+---
+
+class: left, middle
+
+# Plots Speak Louder than Words
+
+.pull-left[
+
+## Do NOT!
+
+&gt; Company A had revenues of $1MM and Company B had revenues of $750k in FY2021.
+
+]
+
+.pull-right[
+
+## Do!
+
+&lt;img src="Data-Visualization_files/figure-html/plots-1.png" width="100%" /&gt;
+]
+
+---
+
+class: left, middle
+
+# Let the Data Speak for Itself
+
+Do not use any bs to make the graph "pretty." A clean crisp chart allows the 
+reader to focus on the data and the message of the story.
+
+This means:
+
+1. No 3D rendering EVER
+2. No "pretty" colors (more on this soon)
+3. No heavy grid lines
+4. NEVER NEVER NEVER a pie chart (though the WSJ doesn't agree with me)
+
+---
+
+class: left, middle
+
+# Misrepresenting the Trend
+
+.pull-left[
+    ![bad_y_axis](data_viz_files/temp_change.png)
+]
+
+--
+
+.pull-right[
+
+&lt;img src="Data-Visualization_files/figure-html/temp-1.png" width="100%" /&gt;
+
+]
+
+---
+
+class: left, middle
+
+# Misrepresenting the Trend
+
+.pull-left[
+
+- The data should fill about 2/3 of the y-axis height
+  
+- The line should not be too thick or thin
+  
+- The grid shouldn't be thicker than the line
+  
+- The y-axis increments shouldn't be awkward
+    - Natural increments: (1s, 2s, 5s, 10s, etc.)
+    - Awkward increments: (3s, 6s, 8s, 12s, etc.)
+
+]
+
+.pull-right[
+
+&lt;img src="Data-Visualization_files/figure-html/temp_2-1.png" width="100%" /&gt;
+
+]
+
+---
+
+class: left, middle
+
+# Zero Baseline
+
+- With line charts, as we just saw, we want the y-axis to be the right size
+- With bar charts, we are interpreting area; because of this, we always start 
+at 0
+
+.pull-left[
+
+&lt;img src="Data-Visualization_files/figure-html/zero_bad-1.png" width="100%" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+&lt;img src="Data-Visualization_files/figure-html/zero_good-1.png" width="100%" /&gt;
+
+]
+
+---
+
+class: left, middle
+
+# Zero Baseline
+
+.pull-left[
+
+- We can clearly see that MI has about half the total COVID Deaths as CA
+- Even this plot may still be misleading or hard to interpret: CA and MI have 
+vastly different populations (should probably be a percentage of population)
+
+]
+
+.pull-right[
+
+&lt;img src="Data-Visualization_files/figure-html/zero_good_2-1.png" width="100%" /&gt;
+
+]
+
+---
+
+class: left, middle
+
+# Order Bars in the Correct Order
+
+.pull-left[
+
+This is not good (look at the dates).
+
+![Bad COVID Data](data_viz_files/covid-ga-recreation.jpeg)
+
+]
+
+.pull-right[
+- Ordinal data should stay in order 
+    - Grades
+    - Dates
+    - Age groups (Child, Teen, Young Adult, Adult, etc)
+]
+
+
+---
+
+class: left, middle
+
+# Order Bars in the Correct Order
+
+Other categorical data should be reordered so the "highest" is on the left and 
+"lowest" is on the right.
+
+&lt;img src="Data-Visualization_files/figure-html/reorder-1.png" width="100%" /&gt;
+
+---
+
+class: left, middle
+
+# Too many lines on a plot
+
+When you have too many categories, you should split your plot into separate 
+"facets."
+
+.pull-left[
+
+&lt;img src="Data-Visualization_files/figure-html/too_many_lines-1.png" width="100%" /&gt;
+]
+
+--
+
+.pull-right[
+&lt;img src="Data-Visualization_files/figure-html/facets-1.png" width="100%" /&gt;
+]
+
+---
+
+class: left, middle
+
+# Negative Values
+
+.pull-left[
+![stand your ground](data_viz_files/stand_your_ground.png)
+]
+
+.pull-right[
+This is another example of what not to do.
+
+Any values under the x-axis or left of the y-axis are treated naturally as 
+negative values. It is misleading to flip the axes.
+]
+
+---
+
+class: left, middle
+
+# Another Exercise Together!
+
+https://tinyurl.com/GFA-DV-Final
+
+---
+
+class: left, middle
+
+# Learning More
+
+1. [SQL](https://www.edx.org/course/sql-for-data-science)
+2. [Tableau or other Data Visualization Tool](https://www.edx.org/course/data-representation-and-visualization-in-tableau)
+3. [Data analysis in R](https://www.edx.org/professional-certificate/harvardx-data-science)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

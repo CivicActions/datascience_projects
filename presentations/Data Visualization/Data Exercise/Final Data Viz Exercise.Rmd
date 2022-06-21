@@ -1,0 +1,170 @@
+---
+title: "GFA - Data Visualization Exercise"
+author: "Jake Rozran"
+date: '2022-06-24'
+output: pdf_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    fig.width = 9, 
+    fig.height = 3.5, 
+    fig.retina = 3,
+    out.width = "100%",
+    cache = FALSE,
+    echo = FALSE,
+    message = FALSE, 
+    warning = FALSE,
+    hiline = TRUE
+)
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+
+data("mpg")
+# write.csv(mpg, "Data Visualization/Data Exercise/mpg.csv")
+```
+
+## Introduction
+
+Let's take a look at the MPG dataset. This dataset contains a subset of the 
+fuel economy data that the EPA makes available on http://fueleconomy.gov. It 
+contains only models which had a new release every year between 1999 and 2008 - 
+this was used as a proxy for the popularity of the car.
+
+## Data
+
+To access the data, please click the option that works for you below:
+
+- [Microsoft Excel](https://drive.google.com/drive/u/1/folders/1JOr0jqhla5gZ2STOXuplNlV-a61DYCD8) (download the spreadsheet)
+- [Google Sheets](https://docs.google.com/spreadsheets/d/10Gyloc1RvPy-URF6IH5hZZq0hiqexPyofAGmbRUuu2w/edit?usp=sharing) (copy the sheet to your own drive)
+
+## Questions to Answer
+
+1. Research: 
+    - Explore the data to see what's in there
+    - What is the range, median, and mean for displacement (`disp`), year, # of 
+    engine cylinders (`cyl`), city mpg (`cty`), and highway mpg (`hwy`)?
+
+```{r explore}
+mpg %>% 
+    head() %>%
+    kbl() %>%
+    kable_material(c("striped", "hover"))
+```
+
+2. Research:
+    - Pick a car manufacturer
+    - How many models does they have that have been around from 1999 - 2008?
+    - Does one model have better or worse gas mileage than the others?
+
+```{r research}
+mnf <- "ford"
+models <- length(unique(mpg$model[mpg$manufacturer == mnf]))
+
+max_mods <- mpg %>% 
+    filter(manufacturer == mnf) %>% 
+    group_by(model) %>% 
+    summarise(first_year = min(year),
+              last_year = max(year), 
+              mean_mpg_cty = mean(cty),
+              mean_mpg_hwy = mean(hwy)) %>% 
+    mutate(longest = last_year - first_year)
+```
+
+Example:
+- Pick a car manufacturer: *`r mnf`*
+- How many models does they have? *`r models`*
+- Does one model have better or worse gas mileage than the others? *The mustang, *
+*which is the only car here, has slightly better gas mileage than the *
+*trucks/suvs.*
+
+3. Plot:
+- Bar Chart (2 variables):
+    - Using the model that has been running the longest, make a bar chart that shows 
+    both the `cty` and `hwy` mpg over time
+    - Does that model have multiple `cyl` options? If so, plot those in separate 
+    panels (aka facets)
+    - Does that model [also] have multiple transmissions (`trans`), plot those 
+    in separate panels (facets)
+
+Example:
+
+```{r bar_chart}
+plot_dat <- mpg %>% 
+    filter(manufacturer == mnf &
+               model == "mustang") %>% 
+    group_by(year, model) %>% 
+    summarise(cty = mean(cty),
+              hwy = mean(hwy)) %>% 
+    pivot_longer(cols = c("cty", "hwy"), names_to = "mpg_type", values_to = "mpg")
+
+ggplot(plot_dat, aes(x = factor(year), y = mpg, group = mpg_type, fill = mpg_type)) +
+    geom_bar(stat = "identity", position = "dodge") + 
+    scale_fill_manual(values = c("#1a3f6f", "#52c0ea")) + 
+    ggtitle("Ford Mustang - City vs. Highway MPG",
+            subtitle = "1999 vs. 2008") +
+    xlab("Year") +
+    ylab("Miles per Gallon (mpg)") +
+    theme(panel.background = element_blank(),
+          panel.grid.major.x = element_blank(),
+          panel.grid.major.y = element_line(color = "light gray"),
+          axis.ticks = element_blank(),
+          legend.position = "none")
+```
+
+```{r bar_chart_facets}
+plot_dat <- mpg %>% 
+    filter(manufacturer == mnf &
+               model == "mustang") %>% 
+    group_by(year, model, cyl) %>% 
+    summarise(cty = mean(cty),
+              hwy = mean(hwy)) %>% 
+    pivot_longer(cols = c("cty", "hwy"), names_to = "mpg_type", values_to = "mpg")
+
+ggplot(plot_dat, aes(x = factor(year), y = mpg, group = mpg_type, fill = mpg_type)) +
+    geom_bar(stat = "identity", position = "dodge") + 
+    scale_fill_manual(values = c("#1a3f6f", "#52c0ea")) + 
+    facet_wrap(~ cyl) +
+    ggtitle("Ford Mustang - City vs. Highway MPG",
+            subtitle = "1999 vs. 2008") +
+    xlab("Year") +
+    ylab("Miles per Gallon (mpg)") +
+    theme(panel.background = element_blank(),
+          panel.grid.major.x = element_blank(),
+          panel.grid.major.y = element_line(color = "light gray"),
+          axis.ticks = element_blank(),
+          legend.position = "none",
+          strip.background = element_blank())
+```
+
+```{r bar_chart_more_facets}
+plot_dat <- mpg %>% 
+    filter(manufacturer == mnf &
+               model == "mustang") %>% 
+    mutate(trans = ifelse(grepl("auto", trans), "automatic", "manual")) %>% 
+    group_by(year, model, cyl, trans) %>% 
+    summarise(cty = mean(cty),
+              hwy = mean(hwy)) %>% 
+    pivot_longer(cols = c("cty", "hwy"), names_to = "mpg_type", values_to = "mpg")
+
+ggplot(plot_dat, aes(x = factor(year), y = mpg, group = mpg_type, fill = mpg_type)) +
+    geom_bar(stat = "identity", position = "dodge") + 
+    scale_fill_manual(values = c("#1a3f6f", "#52c0ea")) + 
+    facet_wrap(cyl ~ trans) +
+    ggtitle("Ford Mustang - City vs. Highway MPG",
+            subtitle = "1999 vs. 2008") +
+    xlab("Year") +
+    ylab("Miles per Gallon (mpg)") +
+    theme(panel.background = element_blank(),
+          panel.grid.major.x = element_blank(),
+          panel.grid.major.y = element_line(color = "light gray"),
+          axis.ticks = element_blank(),
+          legend.position = "none",
+          strip.background = element_blank())
+```
+
+4. Review:
+    - Does anything stick out in your bar charts?
+    - If so, can you find an explanation for those things?
